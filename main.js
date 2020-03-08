@@ -12,6 +12,7 @@ function submitIssue(e) {
   let issues = [];
   if (localStorage.getItem('issues')){
     issues = JSON.parse(localStorage.getItem('issues'));
+    console.log(issues);
   }
   issues.push(issue);
   localStorage.setItem('issues', JSON.stringify(issues));
@@ -31,8 +32,9 @@ const closeIssue = id => {
 
 const deleteIssue = id => {
   const issues = JSON.parse(localStorage.getItem('issues'));
-  const remainingIssues = issues.filter( issue.id !== id )
+  const remainingIssues = issues.filter(issue => id !== parseInt(issue.id));
   localStorage.setItem('issues', JSON.stringify(remainingIssues));
+  fetchIssues();
 }
 
 const fetchIssues = () => {
@@ -45,7 +47,7 @@ const fetchIssues = () => {
 
     issuesList.innerHTML +=   `<div class="well">
                               <h6>Issue ID: ${id} </h6>
-                              <p><span class="label label-info"> ${status} </span></p>
+                              <p><span class="label label-info"> ${status}</span></p>
                               <h3> ${description} </h3>
                               <p><span class="glyphicon glyphicon-time"></span> ${severity}</p>
                               <p><span class="glyphicon glyphicon-user"></span> ${assignedTo}</p>
