@@ -41,7 +41,7 @@ const fetchIssues = () => {
   const issuesList = document.getElementById('issuesList');
   issuesList.innerHTML = '';
 
-  
+  let [totalIssues, remainingIssues] = [issues.length, 0];
 
   for (var i = 0; i < issues.length; i++) {
     const {id, description, severity, assignedTo, isOpen} = issues[i];
@@ -53,13 +53,12 @@ const fetchIssues = () => {
       descriptionStyle = description;
       updateBtnColor = "btn-warning";
       updateBtnText = "Close";
-      
+      remainingIssues++;
     } else{
       status = 'Closed';
       descriptionStyle = `<strike>${description}</strike>`;
       updateBtnColor = "btn-success";
       updateBtnText = "Open";
-      
     }
 
     issuesList.innerHTML +=   `<div class="well">
@@ -73,4 +72,9 @@ const fetchIssues = () => {
                               </div>`;
     
   }
+
+  const issueCounter = document.getElementById('issue-counter');
+  issueCounter.innerText = totalIssues? `${remainingIssues}(${totalIssues})` : '';
+  
+
 }
