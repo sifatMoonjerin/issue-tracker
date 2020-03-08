@@ -5,20 +5,24 @@ function submitIssue(e) {
   const description = getInputValue('issueDescription');
   const severity = getInputValue('issueSeverity');
   const assignedTo = getInputValue('issueAssignedTo');
-  const id = Math.floor(Math.random()*100000000) + '';
-  const isOpen = true;
+  if(isNaN(description) && isNaN(assignedTo)){
+    const id = Math.floor(Math.random()*100000000) + '';
+    const isOpen = true;
 
-  const issue = { id, description, severity, assignedTo, isOpen };
-  let issues = [];
-  if (localStorage.getItem('issues')){
-    issues = JSON.parse(localStorage.getItem('issues'));
+    const issue = { id, description, severity, assignedTo, isOpen };
+    let issues = [];
+    if (localStorage.getItem('issues')){
+      issues = JSON.parse(localStorage.getItem('issues'));
+    }
+    issues.push(issue);
+    localStorage.setItem('issues', JSON.stringify(issues));
+
+    fetchIssues();
+    e.preventDefault();
+  } else{
+    alert("Your input can not contain only numbers!");
   }
-  issues.push(issue);
-  localStorage.setItem('issues', JSON.stringify(issues));
-
   document.getElementById('issueInputForm').reset();
-  fetchIssues();
-  e.preventDefault();
 }
 
 const updateIssue = id => {
