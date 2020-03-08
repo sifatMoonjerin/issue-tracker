@@ -64,9 +64,9 @@ const fetchIssues = () => {
     issuesList.innerHTML +=   `<div class="well">
                               <h6>Issue ID: ${id} </h6>
                               <p><span class="label label-info"> ${status}</span></p>
-                              <h3> ${descriptionStyle} </h3>
+                              <h3 style="overflow-wrap: break-word;"> ${descriptionStyle} </h3>
                               <p><span class="glyphicon glyphicon-time"></span> ${severity}</p>
-                              <p><span class="glyphicon glyphicon-user"></span> ${assignedTo}</p>
+                              <p style="overflow-wrap: break-word;"><span class="glyphicon glyphicon-user"></span> ${assignedTo}</p>
                               <a onclick="updateIssue(${id})" class="btn ${updateBtnColor}">${updateBtnText}</a>
                               <a onclick="deleteIssue(${id})" class="btn btn-danger">Delete</a>
                               </div>`;
