@@ -5,7 +5,9 @@ function submitIssue(e) {
   const description = getInputValue('issueDescription');
   const severity = getInputValue('issueSeverity');
   const assignedTo = getInputValue('issueAssignedTo');
-  if(isNaN(description) && isNaN(assignedTo)){
+  if(!isNaN(description) || !isNaN(assignedTo)){
+    alert("Your input can not contain only numbers or whitespaces!");
+  } else{
     const id = Math.floor(Math.random()*100000000) + '';
     const isOpen = true;
 
@@ -19,8 +21,6 @@ function submitIssue(e) {
 
     fetchIssues();
     e.preventDefault();
-  } else{
-    alert("Your input can not contain only numbers!");
   }
   document.getElementById('issueInputForm').reset();
 }
