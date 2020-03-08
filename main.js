@@ -45,12 +45,14 @@ const fetchIssues = () => {
   const issuesList = document.getElementById('issuesList');
   issuesList.innerHTML = '';
 
-  let [totalIssues, remainingIssues] = [issues.length, 0];
+  let [totalIssues, remainingIssues] = [0, 0];
 
   for (var i = 0; i < issues.length; i++) {
     const {id, description, severity, assignedTo, isOpen} = issues[i];
 
     let status, descriptionStyle, updateBtnColor, updateBtnText;
+
+    totalIssues++;
 
     if(isOpen){
       status = 'Open';
@@ -64,6 +66,7 @@ const fetchIssues = () => {
       updateBtnColor = "btn-success";
       updateBtnText = "Open";
     }
+    
 
     issuesList.innerHTML +=   `<div class="well">
                               <h6>Issue ID: ${id} </h6>
