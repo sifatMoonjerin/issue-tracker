@@ -6,9 +6,9 @@ function submitIssue(e) {
   const severity = getInputValue('issueSeverity');
   const assignedTo = getInputValue('issueAssignedTo');
   const id = Math.floor(Math.random()*100000000) + '';
-  const status = 'Open';
+  const isOpen = true;
 
-  const issue = { id, description, severity, assignedTo, status };
+  const issue = { id, description, severity, assignedTo, isOpen };
   let issues = [];
   if (localStorage.getItem('issues')){
     issues = JSON.parse(localStorage.getItem('issues'));
@@ -21,10 +21,10 @@ function submitIssue(e) {
   e.preventDefault();
 }
 
-const closeIssue = id => {
+const updateIssue = id => {
   const issues = JSON.parse(localStorage.getItem('issues'));
   const currentIssue = issues.find(issue => parseInt(issue.id) === id);
-  currentIssue.status = 'Closed';
+  currentIssue.isOpen = !currentIssue.isOpen;
   localStorage.setItem('issues', JSON.stringify(issues));
   fetchIssues();
 }
@@ -41,15 +41,25 @@ const fetchIssues = () => {
   const issuesList = document.getElementById('issuesList');
   issuesList.innerHTML = '';
 
+  
+
   for (var i = 0; i < issues.length; i++) {
-    const {id, description, severity, assignedTo, status} = issues[i];
+    const {id, description, severity, assignedTo, isOpen} = issues[i];
 
-    let descriptionStyle;
+    let status, descriptionStyle, updateBtnColor, updateBtnText;
 
-    if(status === 'Open'){
+    if(isOpen){
+      status = 'Open';
       descriptionStyle = description;
+      updateBtnColor = "btn-warning";
+      updateBtnText = "Close";
+      
     } else{
+      status = 'Closed';
       descriptionStyle = `<strike>${description}</strike>`;
+      updateBtnColor = "btn-success";
+      updateBtnText = "Open";
+      
     }
 
     issuesList.innerHTML +=   `<div class="well">
@@ -58,7 +68,7 @@ const fetchIssues = () => {
                               <h3> ${descriptionStyle} </h3>
                               <p><span class="glyphicon glyphicon-time"></span> ${severity}</p>
                               <p><span class="glyphicon glyphicon-user"></span> ${assignedTo}</p>
-                              <a onclick="closeIssue(${id})" class="btn btn-warning">Close</a>
+                              <a onclick="updateIssue(${id})" class="btn ${updateBtnColor}">${updateBtnText}</a>
                               <a onclick="deleteIssue(${id})" class="btn btn-danger">Delete</a>
                               </div>`;
     
